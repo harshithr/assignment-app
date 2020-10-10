@@ -1,5 +1,20 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Dependencies
+1: react-router-dom ( for routing )
+2: ant-design or antd ( UI library )
+3: @ant-design/icons ( ICONS ) 
+
+## To download modules
+yarn add 
+or
+npm install
+
+## To RUN
+yarn start
+or
+npm start
+
 ## Available Scripts
 
 In the project directory, you can run:
