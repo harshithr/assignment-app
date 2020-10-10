@@ -1,0 +1,91 @@
+.h1_profile {
+  margin-left: 5%;
+  font-weight: bold;
+  font-size: 20px;
+  color: gray;
+}
+
+.profile-style {
+  color: #545454;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.profile-log {
+  color: #545454;
+  width: 100px;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.profile-pic {
+  float: left;
+}
+
+.profile-btn {
+  border: none;
+  width: 200px;
+}
+
+.white-bg {
+  background-color: '#FFFFFF';
+}
+
+.left-col {
+  height: 100%;
+  text-align: center;
+}
+
+.right-col {
+  height: 100%;
+  color: #545454;
+}
+
+.font-style {
+  color: #545454;
+  font-size: 18px;
+}
+
+.user-name {
+  color: #545454;
+  font-size: 18px;
+  height: 30px;
+  word-wrap: break-word;
+}
+
+.profile-info-left {
+  text-align: right;
+}
+
+.profile-info-right {
+  text-align: left;
+  font-weight: 600;
+}
+
+.chat-style {
+  background-color: #2C65C8;
+  width: 200px;
+  height: 40px;
+  position: absolute;
+  right: 5%;
+  bottom: 0;
+  margin-top: 80px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px; 
+}
+
+.chat-font {
+  font-size: 18px;
+  color: white;
+  padding-left: 10px;
+  float: left;
+}
+
+.chat-spacing {
+  padding-top: 8px;
+  padding-left: 8px;
+}
+
+.chat-icon {
+  float: left
+}

@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import Cards from './components/Cards.js';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Profile from './components/ProfilePage/Profile.js';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    data: ''
+  }
+
+  componentDidMount = () => {
+    this.fetchData();
+  }
+
+  fetchData = () => {
+    fetch('https://panorbit.in/api/users.json')
+      .then(response => response.json())
+      .then(data => this.setState({ data: data }))
+  }
+
+  render() {
+    console.log(this.state.data);
+    return (
+      <Router>
+        <div className="App">
+          {/* <Cards userData={this.state.data} /> */}
+          <Route path='/' exact render={(props) => <Cards userData={this.state.data} {...props} />} />
+          <Route path="/profile/" render={(props) => <Profile userData={this.state.data} {...props} />} />
+        </div>
+      </Router>
+    );
+  }
 }
 
 export default App;
