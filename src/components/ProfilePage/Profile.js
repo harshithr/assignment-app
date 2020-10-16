@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import './Profile.css';
 
-import { Layout, Menu, Avatar, PageHeader, Row, Col, Tooltip, Card } from 'antd';
+import { Layout, Menu, Avatar, PageHeader, Row, Col, Tooltip, Card, List, Button } from 'antd';
 import { WechatOutlined, UpOutlined } from '@ant-design/icons';
-
-const { SubMenu } = Menu; 
+import { Link,} from 'react-router-dom';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -15,12 +14,20 @@ class Profile extends Component {
     companyData: '',
     address: '',
     location: '',
+    data: ''
   }
 
   onCollapse = collapsed => {
     console.log(collapsed);
     this.setState({ collapsed });
   };
+
+
+  fetchData = () => {
+    fetch('https://panorbit.in/api/users.json')
+      .then(response => response.json())
+      .then(data => this.setState({ data: data.users }))
+  }
 
   componentDidMount = () => {
     const { handle } = this.props.match.params;
@@ -32,10 +39,12 @@ class Profile extends Component {
       address: data.address,
       location: data.address.geo 
     });
+
+    this.fetchData();
   }
   render() {
-    const { userData, companyData, address, location } = this.state;
     console.log(this.state.data);
+    const { userData, companyData, address, location, data } = this.state;
     return (
       <Layout style={{ minHeight: '100vh'}}>
         <Sider style={{ backgroundColor: '#5E3AC8' }} collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
@@ -45,13 +54,13 @@ class Profile extends Component {
               Profile
             </Menu.Item>
             <Menu.Item key="2" >
-              Posts
+              <Link to="/posts">Posts</Link> 
             </Menu.Item>
             <Menu.Item key="3" >
-              Gallery
+              <Link to="/gallery">Gallery</Link>
             </Menu.Item>
             <Menu.Item key="4" >
-              ToDo
+              <Link to="/todo">ToDo</Link>
             </Menu.Item>
           </Menu>
         </Sider>
@@ -62,23 +71,46 @@ class Profile extends Component {
                 className="site-page-header-responsive"
                 title={<h1 className="profile-style">Profile</h1>}
                 extra={[
-                  <Menu mode="horizontal">
-                    <SubMenu title={ 
-                        <div><Avatar src={userData.profilepicture} className="profile-pic" />
-                        <p className="profile-log">{userData.name}</p></div>}
-                      >
-                      <Menu.ItemGroup style={{ borderRadius: '20px' }}>
-                      <Card style={{ width: 250 }}>
-                        <div style={{ textAlign: 'center', }}>
-                          <Avatar src={userData.profilepicture} size={80} />
-                          <p style={{ marginTop: '15px' }}>{userData.name}</p>
-                          <span style={{ fontSize: '12px', color: 'grey' }}>{userData.email}</span>
-                          <hr />
+                  <div style={{ marginRight: '80px' }}>
+                    <Tooltip
+                      placement="bottom" 
+                      title={
+                        <Card style={{ width: 250, color: 'transparent' }} >
+                          <div className='scrollbar' style={{ height: '300px' }}>
+                            <div style={{ textAlign: 'center'}}>
+                              <Avatar src={userData.profilepicture} size={80} />
+                              <p style={{ marginTop: '15px' }}>{userData.name}
+                                <br /><span style={{ fontSize: '12px', color: 'grey' }}>{userData.email}</span>
+                              </p>
+                              <hr />
+                              <List 
+                                  itemLayout="horizontal"
+                                  dataSource={data}
+                                  renderItem={(item) => (
+                                    <List.Item>
+                                      <List.Item.Meta 
+                                        avatar={(item.name !== userData.name) ? <Avatar src={item.profilepicture} /> : ''}
+                                        title={(item.name !== userData.name) ? <Link to={{ pathname: `/profile/id=${item.id}`, state: { data: item } }}>{item.name}</Link>: ''}
+                                      
+                                      />
+                                    </List.Item>
+                                  )}
+                                />
+                              <Link to="/"><Button style={{ borderRadius: '20px', backgroundColor: '#D55151', color: 'white' }}>Sign out</Button></Link>
+                            </div>
+                          </div>
+                        </Card>
+                      }
+                      color="transparent" 
+                      trigger='click' 
+                      style={{ borderRadius: '20px'}}
+                    >
+                      <div>
+                          <Avatar src={userData.profilepicture} className="profile-pic" />
+                          <p className="profile-log">{userData.name}</p>
                         </div>
-                      </Card>
-                      </Menu.ItemGroup>
-                    </SubMenu>
-                  </Menu>
+                    </Tooltip>
+                  </div>
                 ]}
               >
             </PageHeader>
@@ -174,19 +206,29 @@ class Profile extends Component {
           <Footer style={{ backgroundColor: '#FFFFFF' }}>
             <Tooltip 
               placement="top" 
-              color="white" 
+              color="transparent" 
               trigger='click' 
               style={{ borderRadius: '20px' }}
               title={
-                <Card style={{ width: 250 }}>
-                  <div style={{ textAlign: 'center', }}>
-                    <Avatar src={userData.profilepicture} className="chat-icon" />
-                    <p style={{ marginTop: '15px' }}>{userData.name}</p>
-                    <hr />
+                <Card className="scrollbar" style={{ width: 250, height: 300 }}>
+                  <div >
+                    <List 
+                      itemLayout="horizontal"
+                      dataSource={data}
+                      renderItem={(item) => (
+                        <List.Item>
+                          <List.Item.Meta 
+                            avatar={(item.name !== userData.name) ? <Avatar src={item.profilepicture} /> : ''}
+                            title={(item.name !== userData.name) ? <span style={{ fontSize: 12 }}>{item.name}<span className="dot"></span></span>: ''}
+                
+                          />
+                        </List.Item>
+                      )}
+                    />
                   </div>
                 </Card>
             }>
-            <div className="chat-style" onClick={() => console.log('awes')}>
+            <div className="chat-style">
               <div className="chat-spacing">
                 <WechatOutlined style={{ color: 'white', fontSize: '30px', paddingLeft: '8px', float: 'left'}} />
                 <p className="chat-font">Chat</p>

@@ -10,12 +10,21 @@ class Cards extends Component {
     data: '',
   }
 
-  componentDidUpdate = () => {
-    if (this.state.data === '' | this.state.data === undefined ) {
-      const { userData } = this.props;
-      const info = userData.users;
-      this.setState({ data: info });
-    }
+  // componentDidUpdate = () => {
+  //   if (this.state.data === '' | this.state.data === undefined ) {
+  //     const { userData } = this.props;
+  //     const info = userData.users;
+  //     this.setState({ data: info });
+  //   }
+  // }
+  fetchData = () => {
+    fetch('https://panorbit.in/api/users.json')
+      .then(response => response.json())
+      .then(data => this.setState({ data: data.users }))
+  }
+
+  componentDidMount = () => {
+    this.fetchData();
   }
 
   render() {
