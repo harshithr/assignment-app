@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Profile.css';
 
-import { Layout, Menu, Avatar, PageHeader, Row, Col, Tooltip, Card, List, Button } from 'antd';
+import { Layout, Menu, Avatar, PageHeader, Tooltip, Card, List } from 'antd';
 import { WechatOutlined, UpOutlined } from '@ant-design/icons';
 import { Link,} from 'react-router-dom';
 
@@ -60,7 +60,7 @@ class Profile extends Component {
             <div style={{ textAlign: 'left', width: '100%',}}>
               <PageHeader
                 className="site-page-header-responsive"
-                title={<h1 className="profile-style">Profile</h1>}
+                title={<h1 className="profile-style"> {this.props.category}</h1>}
                 
               >
             </PageHeader>

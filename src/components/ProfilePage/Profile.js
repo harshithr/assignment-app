@@ -30,7 +30,6 @@ class Profile extends Component {
   }
 
   componentDidMount = () => {
-    const { handle } = this.props.match.params;
     const { data } = this.props.location.state;
     console.log(data);
     this.setState({ 
